@@ -1,4 +1,4 @@
-# 🍔 Restaurant Food Delivery
+# Restaurant Food Delivery
 
 Welcome to the **Restaurant Food Delivery** project! This is a full-stack application that allows customers to browse restaurants, order food online, and track delivery status in real-time. Perfect for modern online food ordering needs.
 
@@ -10,7 +10,7 @@ https://restaurant-food-delivery-625a44.netlify.app
 ---
 
 ## 🛠 Technologies Used
-- **Frontend:**TypeScript React.js, Tailwind CSS, React Router  
+- **Frontend:** TypeScript, React.js, Tailwind CSS, React Router  
 - **Backend:** Node.js, Express.js, MongoDB, Mongoose  
 - **Authentication & APIs:** Auth0, Google Maps API  
 
@@ -42,3 +42,7 @@ npm start
 GitHub: alaminjim
 
 Email: jimalamin7@gmail.com
+
+License
+
+This project is distributed under the MIT License. See LICENSE for more details.
