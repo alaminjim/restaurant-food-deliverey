@@ -6,7 +6,6 @@ type Props = {
 };
 
 const OrderStatusDetail = ({ order }: Props) => {
-  // Safe total calculation (undefined বা NaN রোধ)
   const totalAmountSafe =
     typeof order.totalAmount === "number" && !isNaN(order.totalAmount)
       ? order.totalAmount
@@ -14,7 +13,6 @@ const OrderStatusDetail = ({ order }: Props) => {
 
   return (
     <div className="space-y-5">
-      {/* Delivery Details */}
       <div className="flex flex-col">
         <span className="font-bold">Delivering to:</span>
         <span>{order.deliveryDetails?.name || "N/A"}</span>
@@ -24,7 +22,6 @@ const OrderStatusDetail = ({ order }: Props) => {
         </span>
       </div>
 
-      {/* Order Items */}
       <div className="flex flex-col">
         <span className="font-bold">Your Order</span>
         {order.cartItems && order.cartItems.length > 0 ? (
