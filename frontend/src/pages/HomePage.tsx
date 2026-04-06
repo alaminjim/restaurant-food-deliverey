@@ -4,7 +4,7 @@ import appDownloadImage from "../assets/appDownload.png";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star, MapPin, Utensils, Bike, ShieldCheck, Clock, Leaf } from "lucide-react";
+import { Star, MapPin, Utensils, Bike, ShieldCheck, Clock, Leaf, Quote } from "lucide-react";
 import avatar1 from "../assets/avatar1.jpg";
 import avatar2 from "../assets/avatar2.jpg";
 import avatar3 from "../assets/avatar3.jpg";
@@ -253,36 +253,68 @@ const HomePage = () => {
         </motion.div>
       </div>
 
-      {/* Testimonials (Always visible) */}
-      <Section title="What Our Customers Say" bgColor="bg-white">
-        <div className="flex flex-wrap justify-center gap-6">
+      {/* Testimonials - Industry Standard Gorgeous Design */}
+      <Section 
+        title="What Our Customers Say" 
+        subtitle="Trusted by thousands of happy foodies" 
+        bgColor="bg-gradient-to-b from-white to-orange-50/50"
+      >
+        <div className="grid md:grid-cols-3 gap-8 px-4">
           {testimonials.map((review, idx) => (
             <motion.div
               key={idx}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              variants={fadeInUp}
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0, transition: { delay: idx * 0.2, duration: 0.6 } }
+              }}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+              className="relative group h-full"
             >
-              <div className="w-80 p-6 bg-orange-50 rounded-2xl shadow-xl hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2">
-                {review.avatar && (
-                  <img
-                    src={review.avatar}
-                    alt={review.name}
-                    className="w-16 h-16 rounded-full mx-auto mb-4 object-cover"
-                  />
-                )}
-                <p className="text-gray-700 mb-4 text-center">
-                  "{review.text}"
-                </p>
-                <div className="flex justify-center gap-1 mb-2">
-                  {Array.from({ length: review.rating }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-400" />
+              <div className="h-full p-8 md:p-10 bg-white/60 backdrop-blur-md rounded-[2.5rem] border border-white/50 shadow-2xl shadow-orange-200/40 flex flex-col items-center text-center transition-all duration-300 hover:shadow-orange-300/40">
+                {/* Quote Icon */}
+                <div className="absolute top-8 right-8 opacity-[0.08] group-hover:opacity-10 transition-opacity">
+                  <Quote className="w-12 h-12 text-slate-900 fill-slate-900" />
+                </div>
+
+                {/* Avatar with Glow */}
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 bg-orange-400 rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                  {review.avatar && (
+                    <img
+                      src={review.avatar}
+                      alt={review.name}
+                      className="relative w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg z-10"
+                    />
+                  )}
+                </div>
+
+                {/* Stars */}
+                <div className="flex justify-center gap-1.5 mb-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`h-5 w-5 ${i < review.rating ? "text-amber-400 fill-amber-400" : "text-slate-200"}`} 
+                    />
                   ))}
                 </div>
-                <span className="block text-center font-bold text-orange-500">
-                  {review.name}
-                </span>
+
+                {/* Quote Text */}
+                <p className="text-slate-700 italic text-lg leading-relaxed mb-6 font-medium">
+                  "{review.text}"
+                </p>
+
+                {/* User Info */}
+                <div className="mt-auto">
+                  <span className="block font-black text-xl tracking-tight text-slate-900">
+                    {review.name}
+                  </span>
+                  <span className="text-orange-500 text-sm font-bold tracking-widest uppercase mt-1 block">
+                    Verified Customer
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
