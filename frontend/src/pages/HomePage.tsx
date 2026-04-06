@@ -11,7 +11,6 @@ import avatar3 from "../assets/avatar3.jpg";
 import { useGetAllRestaurants } from "@/api/RestaurantApi";
 import Section from "@/components/ui/Section";
 import Cards from "./Cards";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Helmet } from "react-helmet-async";
 
 const fadeInUp = {
@@ -22,18 +21,13 @@ const fadeInUp = {
 const HomePage = () => {
   const navigate = useNavigate();
   const { restaurants } = useGetAllRestaurants();
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   const handleSearchSubmit = (values: SearchForm) => {
     navigate(`/search/${values.searchQuery}`);
   };
 
   const handleCardClick = (restaurantId: string) => {
-    if (isAuthenticated) {
-      navigate(`/detail/${restaurantId}`);
-    } else {
-      loginWithRedirect();
-    }
+    navigate(`/detail/${restaurantId}`);
   };
 
   const testimonials = [
@@ -131,13 +125,9 @@ const HomePage = () => {
               </motion.div>
             ))}
           </div>
-        ) : isAuthenticated ? (
-          <div className="w-full text-center py-10 text-gray-500">
-            No featured restaurants available at the moment.
-          </div>
         ) : (
           <div className="w-full text-center py-10 text-gray-500">
-            Login to see all restaurant
+            No featured restaurants available at the moment.
           </div>
         )}
       </Section>
