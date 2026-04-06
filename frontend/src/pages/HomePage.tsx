@@ -4,7 +4,7 @@ import appDownloadImage from "../assets/appDownload.png";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Star, MapPin, Utensils, Bike, ShieldCheck, Clock, Leaf } from "lucide-react";
 import avatar1 from "../assets/avatar1.jpg";
 import avatar2 from "../assets/avatar2.jpg";
 import avatar3 from "../assets/avatar3.jpg";
@@ -115,14 +115,64 @@ const HomePage = () => {
         )}
       </Section>
 
-      <div className="flex justify-center -mt-8">
+      <div className="flex justify-center -mt-8 mb-8">
         <button
           onClick={() => navigate("/restaurants")}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+          className="bg-orange-500 hover:bg-orange-600 text-white px-10 py-4 rounded-full font-extrabold transition-all shadow-lg hover:shadow-orange-500/30 transform hover:-translate-y-1 text-lg"
         >
           Browse All Restaurants
         </button>
       </div>
+
+      {/* How it Works Section */}
+      <Section title="How It Works" subtitle="Get your food in 3 simple steps" bgColor="bg-white rounded-3xl mx-4 md:mx-0 shadow-sm border border-slate-100">
+        <div className="grid md:grid-cols-3 gap-10 px-6">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="bg-orange-100 p-6 rounded-full">
+              <MapPin className="w-12 h-12 text-orange-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-800">1. Set Location</h3>
+            <p className="text-slate-600 font-medium">Enter your address or let us find your location to see restaurants delivering to you.</p>
+          </div>
+          <div className="flex flex-col items-center text-center space-y-4 relative">
+            <div className="hidden md:block absolute top-12 -left-12 w-24 h-0.5 bg-orange-200 border-t-2 border-dashed border-orange-300"></div>
+            <div className="bg-orange-100 p-6 rounded-full relative z-10">
+              <Utensils className="w-12 h-12 text-orange-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-800">2. Choose Food</h3>
+            <p className="text-slate-600 font-medium">Browse menus, read reviews, and select your favorite meals from top-rated spots.</p>
+            <div className="hidden md:block absolute top-12 -right-12 w-24 h-0.5 bg-orange-200 border-t-2 border-dashed border-orange-300"></div>
+          </div>
+          <div className="flex flex-col items-center text-center space-y-4">
+            <div className="bg-orange-100 p-6 rounded-full">
+              <Bike className="w-12 h-12 text-orange-500" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-800">3. Fast Delivery</h3>
+            <p className="text-slate-600 font-medium">Sit back and relax. Our delivery partners will bring your food piping hot and fresh.</p>
+          </div>
+        </div>
+      </Section>
+
+      {/* Why Choose Us Section */}
+      <Section title="Why Choose Us?" subtitle="What makes Testy & Bites special">
+        <div className="grid md:grid-cols-3 gap-8 px-4">
+          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-start hover:shadow-lg transition-shadow">
+            <ShieldCheck className="w-10 h-10 text-orange-500 mb-4" />
+            <h3 className="text-xl font-bold text-slate-800 mb-2">Secure Payments</h3>
+            <p className="text-slate-600 font-medium">Your data and payments are 100% safe with our industry-leading Stripe integration.</p>
+          </motion.div>
+          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-start hover:shadow-lg transition-shadow">
+            <Leaf className="w-10 h-10 text-green-500 mb-4" />
+            <h3 className="text-xl font-bold text-slate-800 mb-2">Fresh Ingredients</h3>
+            <p className="text-slate-600 font-medium">We partner strictly with restaurants that maintain standard health and fresh food policies.</p>
+          </motion.div>
+          <motion.div variants={fadeInUp} className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-start hover:shadow-lg transition-shadow">
+            <Clock className="w-10 h-10 text-blue-500 mb-4" />
+            <h3 className="text-xl font-bold text-slate-800 mb-2">Fastest Delivery</h3>
+            <p className="text-slate-600 font-medium">Our optimized delivery routing ensures your food arrives exactly when expected.</p>
+          </motion.div>
+        </div>
+      </Section>
 
       {/* Landing Image + App Download */}
       <motion.div
