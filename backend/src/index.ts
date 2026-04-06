@@ -56,12 +56,11 @@ app.use("/api/restaurant", restaurantRoute);
 app.use("/api/order", orderRoute);
 
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Api is Working" });
+  res.json({ message: "API V2 - Final Polish Live!" });
 });
 
-// Catch-all route for unknown API endpoints to prevent text/html responses
-app.use("*", (req: Request, res: Response) => {
-  res.status(404).json({ message: "Route not found" });
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: "API Route not found" });
 });
 
 // Global Error Handler
@@ -70,6 +69,7 @@ app.use((err: Error, req: Request, res: Response, next: express.NextFunction) =>
   res.status(500).json({ message: "An unexpected error occurred", error: process.env.NODE_ENV === "development" ? err.message : undefined });
 });
 
-app.listen(7001, () => {
-  console.log("server started on localhost:7001");
+const PORT = process.env.PORT || 7001;
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
