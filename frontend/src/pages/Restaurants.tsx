@@ -1,92 +1,141 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useGetAllRestaurants } from "@/api/RestaurantApi";
+import { useSearchRestaurants } from "@/api/RestaurantApi";
+import CuisineFilter from "@/components/CuisineFilter";
+import PaginationSelector from "@/components/PaginationSelector";
+import SearchBar, { SearchForm } from "@/components/SearchBar";
+import SearchResultCard from "@/components/SearchResultCard";
+import SearchResultInfo from "@/components/SearchResultInfo";
+import SortOptionDropdown from "@/components/SortOptionDropdown";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { RestaurantCardSkeleton } from "@/components/SkeletonLoader";
+import { SearchResultSkeleton } from "@/components/SkeletonLoader";
 import { UtensilsCrossed } from "lucide-react";
-import { Link } from "react-router-dom";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+export type SearchState = {
+  searchQuery: string;
+  page: number;
+  selectedCuisines: string[];
+  sortOption: string;
 };
 
 const Restaurants = () => {
-  const { restaurants, isLoading, error } = useGetAllRestaurants();
-  const navigate = useNavigate();
+  const [searchState, setSearchState] = useState<SearchState>({
+    searchQuery: "",
+    page: 1,
+    selectedCuisines: [],
+    sortOption: "bestMatch",
+  });
+
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  // We use "all" as the city to trigger the global search fixed in the backend
+  const { results, isLoading } = useSearchRestaurants(searchState, "all");
+
+  const setSortOption = (sortOption: string) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      sortOption,
+      page: 1,
+    }));
+  };
+
+  const setSelectedCuisines = (selectedCuisines: string[]) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      selectedCuisines,
+      page: 1,
+    }));
+  };
+
+  const setPage = (page: number) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      page,
+    }));
+  };
+
+  const setSearchQuery = (searchFormData: SearchForm) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      searchQuery: searchFormData.searchQuery,
+      page: 1,
+    }));
+  };
+
+  const resetSearch = () => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      searchQuery: "",
+      page: 1,
+    }));
+  };
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[...Array(6)].map((_, i) => (
-          <RestaurantCardSkeleton key={i} />
+      <div className="flex flex-col gap-5">
+        {[...Array(3)].map((_, i) => (
+          <SearchResultSkeleton key={i} />
         ))}
       </div>
     );
   }
-  if (error) return <p>Error loading restaurants</p>;
 
-  const handleClick = (id: string) => {
-    navigate(`/detail/${id}`);
-  };
-
-  // Empty state
-  if (!restaurants || restaurants.length === 0) {
+  if (!results?.data) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-        <div className="bg-orange-50 p-6 rounded-full">
-          <UtensilsCrossed className="h-12 w-12 text-orange-500" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-800">No restaurants yet</h2>
-        <p className="text-gray-500">Wait for your favorite restaurants to join, or start searching by city!</p>
-        <Link 
-          to="/"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md"
-        >
-          Explore All Food
-        </Link>
+         <div className="bg-orange-50 p-6 rounded-full">
+           <UtensilsCrossed className="h-12 w-12 text-orange-500" />
+         </div>
+         <h2 className="text-2xl font-bold text-gray-800">No restaurants found</h2>
+         <p className="text-gray-500 font-medium">Try adjusting your filters or search query to find delicious food!</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5 px-4 md:px-0">
       <Helmet>
-        <title>Testy & Bites | Restaurant</title>
+        <title>Testy & Bites | Browse All Restaurants</title>
       </Helmet>
-      {restaurants.map((restaurant: any) => (
-        <motion.div
-          key={restaurant._id}
-          className="relative cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-transform duration-300 hover:-translate-y-2"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          onClick={() => handleClick(restaurant._id)}
-        >
-          {/* Image */}
-          <img
-            src={restaurant.imageUrl}
-            alt={restaurant.restaurantName}
-            className="w-full h-56 object-cover"
+      
+      {/* Sidebar Filter */}
+      <div id="cuisines-list">
+        <CuisineFilter
+          selectedCuisines={searchState.selectedCuisines}
+          onChange={setSelectedCuisines}
+          isExpanded={isExpanded}
+          onExpandedClick={() =>
+            setIsExpanded((prevIsExpanded) => !prevIsExpanded)
+          }
+        />
+      </div>
+
+      {/* Main Content Area */}
+      <div id="main-content" className="flex flex-col gap-5">
+        <SearchBar
+          searchQuery={searchState.searchQuery}
+          onSubmit={setSearchQuery}
+          placeHolder="Search by Cuisine or Restaurant Name"
+          onReset={resetSearch}
+        />
+        
+        <div className="flex justify-between flex-col gap-3 lg:flex-row items-center">
+          <SearchResultInfo total={results.pagination.total} city="Worldwide" />
+          <SortOptionDropdown
+            sortOption={searchState.sortOption}
+            onChange={(value) => setSortOption(value)}
           />
+        </div>
 
-          {/* Gradient overlay + name */}
-          <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 flex flex-col">
-            <h2 className="text-white text-lg font-bold">
-              {restaurant.restaurantName}
-            </h2>
-            <p className="text-gray-200 text-sm">
-              {restaurant.city}, {restaurant.country}
-            </p>
-          </div>
+        {results.data.map((restaurant) => (
+          <SearchResultCard key={restaurant._id} restaurant={restaurant} />
+        ))}
 
-          {/* Hover effect overlay */}
-          <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition duration-300"></div>
-        </motion.div>
-      ))}
+        <PaginationSelector
+          page={results.pagination.page}
+          pages={results.pagination.pages}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 };
