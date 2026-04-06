@@ -85,7 +85,18 @@ const searchRestaurant = async (req: Request, res: Response) => {
   }
 };
 
+const getRestaurants = async (req: Request, res: Response) => {
+  try {
+    const restaurants = await Restaurant.find().sort({ lastUpdated: -1 }).limit(10);
+    res.json(restaurants);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching restaurants" });
+  }
+};
+
 export default {
   getRestaurant,
   searchRestaurant,
+  getRestaurants,
 };

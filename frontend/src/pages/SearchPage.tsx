@@ -68,11 +68,22 @@ const SearchPage = () => {
   };
 
   if (isLoading) {
-    <span>Loading ...</span>;
+    return <span>Loading ...</span>;
   }
 
   if (!results?.data || !city) {
-    return <span>No results found</span>;
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <h2 className="text-2xl font-bold text-gray-800">No restaurants found in this area</h2>
+        <p className="text-gray-500 mt-2">Try searching for a different city or cuisine.</p>
+        <button 
+          onClick={() => window.history.back()}
+          className="mt-6 text-orange-500 hover:underline font-medium"
+        >
+          Go Back
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -103,7 +114,7 @@ const SearchPage = () => {
         </div>
 
         {results.data.map((restaurant) => (
-          <SearchResultCard restaurant={restaurant} />
+          <SearchResultCard key={restaurant._id} restaurant={restaurant} />
         ))}
         <PaginationSelector
           page={results.pagination.page}

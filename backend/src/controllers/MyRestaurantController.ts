@@ -6,11 +6,14 @@ import Order from "../models/order";
 
 const getMyRestaurant = async (req: Request, res: Response) => {
   try {
-    const restaurants = await Restaurant.find().populate("user");
-    res.json(restaurants);
+    const restaurant = await Restaurant.findOne({ user: req.userId });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    res.json(restaurant);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching restaurants" });
+    res.status(500).json({ message: "Error fetching restaurant" });
   }
 };
 
@@ -78,7 +81,7 @@ const updateOrderStatus = async (req: Request, res: Response) => {
 
 const uploadImage = async (file: Express.Multer.File) => {
   const image = file;
-  const base64Image = Buffer.from(image.buffer).toString("base64");
+  const base64Image = image.buffer.toString("base64");
   const dataURI = `data:${image.mimetype};base64,${base64Image}`;
 
   const uploadResponse = await cloudinary.v2.uploader.upload(dataURI);

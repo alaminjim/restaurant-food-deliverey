@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import avatar1 from "../assets/avatar1.jpg";
 import avatar2 from "../assets/avatar2.jpg";
-import avatar3 from "../assets/avarat3.jpg";
-import { useGetAllRestaurants } from "@/api/MyRestaurantApi";
+import avatar3 from "../assets/avatar3.jpg";
+import { useGetAllRestaurants } from "@/api/RestaurantApi";
 import Section from "@/components/ui/Section";
 import Cards from "./Cards";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,7 +22,7 @@ const fadeInUp = {
 const HomePage = () => {
   const navigate = useNavigate();
   const { restaurants } = useGetAllRestaurants();
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   const handleSearchSubmit = (values: SearchForm) => {
     navigate(`/search/${values.searchQuery}`);
@@ -32,7 +32,7 @@ const HomePage = () => {
     if (isAuthenticated) {
       navigate(`/detail/${restaurantId}`);
     } else {
-      navigate("/login");
+      loginWithRedirect();
     }
   };
 
@@ -109,6 +109,15 @@ const HomePage = () => {
           </div>
         )}
       </Section>
+
+      <div className="flex justify-center -mt-8">
+        <button
+          onClick={() => navigate("/restaurants")}
+          className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+        >
+          Browse All Restaurants
+        </button>
+      </div>
 
       {/* Landing Image + App Download */}
       <motion.div

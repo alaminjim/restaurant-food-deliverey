@@ -4,6 +4,8 @@ import RestaurantController from "../controllers/RestaurantController";
 
 const router = express.Router();
 
+router.get("/", RestaurantController.getRestaurants);
+
 router.get(
   "/:restaurantId",
   param("restaurantId")

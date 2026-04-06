@@ -2,7 +2,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useGetAllRestaurants } from "@/api/MyRestaurantApi";
+import { useGetAllRestaurants } from "@/api/RestaurantApi";
 import { Helmet } from "react-helmet-async";
 
 const fadeInUp = {

@@ -52,13 +52,14 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
   }
 
   if (event.type === "checkout.session.completed") {
-    const order = await Order.findById(event.data.object.metadata?.orderId);
+    const session = event.data.object as Stripe.Checkout.Session;
+    const order = await Order.findById(session.metadata?.orderId);
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    order.totalAmount = event.data.object.amount_total;
+    order.totalAmount = session.amount_total;
     order.status = "paid";
 
     await order.save();
@@ -77,15 +78,19 @@ const createCheckoutSession = async (req: Request, res: Response) => {
     );
     if (!restaurant) throw new Error("Restaurant not found");
 
-    // Calculate total from menu items
+    // Calculate total from menu items and validate quantities
     const totalAmount = checkoutSessionRequest.cartItems.reduce((sum, item) => {
       const menuItem = restaurant.menuItems.find(
         (m) => m._id.toString() === item.menuItemId
       );
-      return sum + (menuItem ? menuItem.price * parseInt(item.quantity) : 0);
+      const quantity = parseInt(item.quantity);
+      if (isNaN(quantity) || quantity <= 0) {
+        throw new Error("Invalid quantity provided");
+      }
+      return sum + (menuItem ? menuItem.price * quantity : 0);
     }, 0);
 
-    //  Create new order with correct totalAmount
+    //  Create new order
     const newOrder = new Order({
       restaurant: restaurant._id,
       user: req.userId,
@@ -95,6 +100,9 @@ const createCheckoutSession = async (req: Request, res: Response) => {
       totalAmount,
       createdAt: new Date(),
     });
+
+    // Save order BEFORE creating stripe session
+    await newOrder.save();
 
     const lineItems = createLineItems(
       checkoutSessionRequest,
@@ -108,14 +116,16 @@ const createCheckoutSession = async (req: Request, res: Response) => {
       restaurant._id.toString()
     );
 
-    if (!session.url)
+    if (!session.url) {
+      // If session fails, we might want to delete the pending order or mark it as failed
+      // For now, we return 500
       return res.status(500).json({ message: "Error creating stripe session" });
+    }
 
-    await newOrder.save();
     res.json({ url: session.url });
   } catch (error: any) {
-    console.log(error);
-    res.status(500).json({ message: error.message || "Something went wrong" });
+    console.error("Order creation failed:", error);
+    res.status(500).json({ message: error.message || "Failed to create checkout session" });
   }
 };
 

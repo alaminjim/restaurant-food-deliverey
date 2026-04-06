@@ -5,29 +5,6 @@ import { toast } from "sonner";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const useGetAllRestaurants = () => {
-  const { getAccessTokenSilently } = useAuth0();
-
-  const fetchAllRestaurants = async () => {
-    const token = await getAccessTokenSilently();
-    const res = await fetch(`${API_BASE_URL}/api/my/restaurant/all`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) throw new Error("Failed to fetch restaurants");
-    return res.json();
-  };
-
-  const { data, isLoading, error } = useQuery(
-    "allRestaurants",
-    fetchAllRestaurants,
-    {
-      refetchInterval: 5000,
-    }
-  );
-
-  return { restaurants: data, isLoading, error };
-};
-
 export const useGetMyRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0();
 

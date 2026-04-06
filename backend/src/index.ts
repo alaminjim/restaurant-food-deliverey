@@ -8,6 +8,26 @@ import myRestaurantRoute from "./routes/MyRestaurantRoute";
 import restaurantRoute from "./routes/RestaurantRoute";
 import orderRoute from "./routes/OrderRoute";
 
+// Environment Variable Validation
+const requiredEnvVars = [
+  "MONGODB_CONNECTION_STRING",
+  "CLOUDINARY_CLOUD_NAME",
+  "CLOUDINARY_API_KEY",
+  "CLOUDINARY_API_SECRET",
+  "STRIPE_API_KEY",
+  "STRIPE_WEBHOOK_SECRET",
+  "FRONTEND_URL",
+];
+
+const missingEnvVars = requiredEnvVars.filter((varName) => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error(
+    `CRITICAL ERROR: Missing environment variables: ${missingEnvVars.join(", ")}`
+  );
+  process.exit(1);
+}
+
 mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING as string)
   .then(() => console.log("Connected to database!"));

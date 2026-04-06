@@ -61,3 +61,22 @@ export const useSearchRestaurants = (
     isLoading,
   };
 };
+
+export const useGetAllRestaurants = () => {
+  const fetchAllRestaurants = async (): Promise<Restaurant[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/restaurant/`);
+
+    if (!response.ok) {
+      throw new Error("Failed to get restaurants");
+    }
+
+    return response.json();
+  };
+
+  const { data: restaurants, isLoading, error } = useQuery(
+    "fetchAllRestaurants",
+    fetchAllRestaurants
+  );
+
+  return { restaurants, isLoading, error };
+};
