@@ -55,8 +55,13 @@ app.use("/api/my/restaurant", myRestaurantRoute);
 app.use("/api/restaurant", restaurantRoute);
 app.use("/api/order", orderRoute);
 
-app.use("/", (req: Request, res: Response) => {
-  res.send("Api is Working");
+app.get("/", (req: Request, res: Response) => {
+  res.json({ message: "Api is Working" });
+});
+
+// Catch-all route for unknown API endpoints to prevent text/html responses
+app.use("*", (req: Request, res: Response) => {
+  res.status(404).json({ message: "Route not found" });
 });
 
 // Global Error Handler
