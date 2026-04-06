@@ -84,6 +84,33 @@ const HomePage = () => {
         </div>
       </motion.div>
 
+      {/* Promotional Banner */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        className="mx-4 md:mx-auto max-w-7xl w-full bg-gradient-to-r from-orange-500 to-amber-500 rounded-3xl p-8 md:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 mt-2"
+      >
+        <div className="flex flex-col gap-4 max-w-lg text-center md:text-left">
+          <span className="bg-white/20 text-white text-sm font-bold px-4 py-1.5 rounded-full w-fit mx-auto md:mx-0 backdrop-blur-md">
+            Limited Time Offer
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Get 20% off your first order!
+          </h2>
+          <p className="text-orange-50 text-lg font-medium">
+            Use code <strong className="bg-white text-orange-600 px-2 py-0.5 rounded-md mx-1 shadow-sm">WELCOME20</strong> at checkout and enjoy delicious meals at a fraction of the cost.
+          </p>
+        </div>
+        <button 
+          onClick={() => navigate("/restaurants")}
+          className="bg-slate-900 text-white border-0 hover:bg-slate-800 px-10 py-4 text-lg rounded-full font-bold shadow-lg transition-transform hover:-translate-y-1 w-full md:w-auto whitespace-nowrap"
+        >
+          Claim Offer Now
+        </button>
+      </motion.div>
+
       {/* Featured Restaurants Section */}
       <Section title="Featured Restaurants" subtitle="Hand-picked just for you">
         {restaurants && restaurants.length > 0 ? (
@@ -180,7 +207,7 @@ const HomePage = () => {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeInUp}
-        className="grid md:grid-cols-2 gap-8 items-center px-6 md:px-32"
+        className="grid md:grid-cols-2 gap-8 items-center px-6 md:px-32 my-8"
       >
         <img
           src={landingImage}
@@ -188,16 +215,53 @@ const HomePage = () => {
           className="rounded-lg shadow-md"
         />
         <div className="flex flex-col items-center justify-center gap-4 text-center">
-          <span className="font-bold text-3xl tracking-tighter">
+          <span className="font-extrabold text-4xl tracking-tighter text-slate-800">
             Order takeaway even faster!
           </span>
-          <span className="text-gray-700">
-            Download the MernEats App for faster ordering and personalised
-            recommendations
+          <span className="text-slate-600 text-lg font-medium">
+            Download the Testy & Bites App for faster ordering, live tracking, and personalised
+            recommendations.
           </span>
-          <img src={appDownloadImage} alt="Download App" className="mt-4" />
+          <img src={appDownloadImage} alt="Download App" className="mt-4 cursor-pointer hover:scale-105 transition-transform" />
         </div>
       </motion.div>
+
+      {/* Join Us / Partnerships Section */}
+      <div className="max-w-7xl mx-auto w-full px-4 md:px-0 grid md:grid-cols-2 gap-8 mb-8">
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="bg-slate-900 rounded-3xl p-10 flex flex-col items-start justify-center gap-4 text-white relative overflow-hidden group shadow-xl"
+        >
+          <div className="absolute -right-10 -top-10 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-all duration-700"></div>
+          <h3 className="text-3xl lg:text-4xl font-extrabold z-10 tracking-tight">Partner with Us</h3>
+          <p className="text-slate-300 z-10 max-w-md text-lg">
+            Join Testy & Bites and reach thousands of new customers. Grow your business with our industry-leading delivery network.
+          </p>
+          <button onClick={() => navigate("/manage-restaurant")} className="mt-4 bg-white text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-slate-100 transition-colors z-10 shadow-md">
+            Add Your Restaurant
+          </button>
+        </motion.div>
+
+        <motion.div
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="bg-orange-50 rounded-3xl p-10 flex flex-col items-start justify-center gap-4 text-slate-900 relative overflow-hidden group shadow-sm border border-orange-100 hover:shadow-md transition-shadow"
+        >
+          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-orange-400/20 rounded-full blur-3xl group-hover:bg-orange-400/40 transition-all duration-700"></div>
+          <h3 className="text-3xl lg:text-4xl font-extrabold z-10 tracking-tight">Ride with Testy</h3>
+          <p className="text-slate-600 z-10 max-w-md text-lg">
+            Become a delivery partner and enjoy flexible working hours, competitive earnings, and full live support.
+          </p>
+          <button className="mt-4 bg-orange-500 text-white px-8 py-3 rounded-full font-bold hover:bg-orange-600 transition-colors z-10 shadow-md">
+            Sign up to Deliver
+          </button>
+        </motion.div>
+      </div>
 
       {/* Testimonials (Always visible) */}
       <Section title="What Our Customers Say" bgColor="bg-white">
