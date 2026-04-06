@@ -2,6 +2,7 @@ import { useCreateMyUser } from "@/api/MyUserApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 const AuthCallbackPage = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const AuthCallbackPage = () => {
     navigate("/");
   }, [createUser, navigate, user]);
 
-  return <>Loading...</>;
+  return <LoadingIndicator fullPage />;
 };
 
 export default AuthCallbackPage;

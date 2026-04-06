@@ -2,14 +2,14 @@ import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-orange-500 to-orange-600 text-white pt-12 pb-6 shadow-inner">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-slate-930 text-slate-300 pt-16 pb-8 border-t border-slate-800" style={{ backgroundColor: '#0f172a' }}>
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-sm md:text-base">
         {/* Brand Section */}
         <div className="flex flex-col items-start">
-          <span className="text-4xl font-bold tracking-tight hover:scale-105 transition-transform duration-300 cursor-pointer text-white">
+          <span className="text-4xl font-extrabold tracking-tight hover:text-orange-400 transition-colors duration-300 cursor-pointer text-white">
             Testy Bites
           </span>
-          <p className="mt-2 text-orange-100 font-medium">
+          <p className="mt-4 text-slate-400 font-medium">
             Bringing authentic flavors to your table
           </p>
           <div className="flex gap-4 mt-4 text-lg text-white">
@@ -39,8 +39,8 @@ const Footer = () => {
 
         {/* Links Section */}
         <div className="flex flex-col md:items-start items-center">
-          <h3 className="text-xl font-bold mb-4 text-white">Quick Links</h3>
-          <ul className="space-y-2 text-lg text-orange-100 font-semibold">
+          <h3 className="text-lg font-bold mb-6 text-white uppercase tracking-wider">Quick Links</h3>
+          <ul className="space-y-3 text-slate-400 font-medium">
             <li>
               <a
                 href="/privacy"
@@ -78,19 +78,19 @@ const Footer = () => {
 
         {/* Newsletter Section */}
         <div className="flex flex-col items-start">
-          <h3 className="text-xl font-bold mb-4 text-white">
-            Subscribe to our Newsletter
+          <h3 className="text-lg font-bold mb-6 text-white uppercase tracking-wider">
+            Subscribe
           </h3>
-          <p className="text-orange-100 mb-4">
-            Get the latest updates and offers.
+          <p className="text-slate-400 mb-6">
+            Get the latest updates and exclusive offers.
           </p>
-          <div className="flex w-full max-w-sm">
+          <div className="flex w-full max-w-sm group">
             <input
               type="email"
               placeholder="Your email"
-              className="flex-1 px-4 py-2 rounded-l-lg focus:outline-none text-gray-800"
+              className="flex-1 px-4 py-3 rounded-l-xl bg-slate-800 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all border border-slate-700 focus:border-transparent"
             />
-            <button className="px-4 py-2 bg-yellow-400 text-orange-700 font-bold rounded-r-lg hover:bg-yellow-300 transition-colors duration-300">
+            <button className="px-6 py-3 bg-orange-500 text-white font-bold rounded-r-xl hover:bg-orange-600 active:scale-95 transition-all shadow-lg hover:shadow-orange-500/25">
               Subscribe
             </button>
           </div>

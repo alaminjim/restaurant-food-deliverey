@@ -5,7 +5,7 @@ import icon from "../assets/icon4.png.png";
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50 border-b-2 border-b-orange-500">
+    <header className="sticky top-0 z-50 glass border-b-orange-500/50">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-6 px-4 md:px-0">
         {/* Logo */}
         <Link
@@ -13,7 +13,7 @@ const Header = () => {
           className="flex items-center gap-3 hover:scale-105 transition-transform duration-300"
         >
           <img src={icon} alt="Testy Bites" className="w-10 h-10 shadow-md" />
-          <span className=" text-2xl md:text-3xl font-semibold text-orange-500 tracking-tight mt-1">
+          <span className="text-2xl md:text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
             Testy Bites
           </span>
         </Link>

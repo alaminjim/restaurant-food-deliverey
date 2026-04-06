@@ -7,6 +7,7 @@ import SearchResultInfo from "@/components/SearchResultInfo";
 import SortOptionDropdown from "@/components/SortOptionDropdown";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { SearchResultSkeleton } from "@/components/SkeletonLoader";
 
 export type SearchState = {
   searchQuery: string;
@@ -68,7 +69,13 @@ const SearchPage = () => {
   };
 
   if (isLoading) {
-    return <span>Loading ...</span>;
+    return (
+      <div className="flex flex-col gap-5">
+        {[...Array(3)].map((_, i) => (
+          <SearchResultSkeleton key={i} />
+        ))}
+      </div>
+    );
   }
 
   if (!results?.data || !city) {

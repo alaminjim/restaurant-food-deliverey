@@ -58,10 +58,10 @@ const UserProfileForm = ({
       </Helmet>
       <form
         onSubmit={form.handleSubmit(onSave)}
-        className="space-y-4 bg-gray-50 rounded-lg md:p-10"
+        className="space-y-6 bg-white border border-slate-100 shadow-sm rounded-2xl md:p-10 p-6"
       >
-        <div>
-          <h2 className="text-2xl font-bold">{title}</h2>
+        <div className="border-b pb-4">
+          <h2 className="text-3xl font-extrabold tracking-tight text-slate-800">{title}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -137,7 +137,7 @@ const UserProfileForm = ({
         {isLoading ? (
           <LoadingButton />
         ) : (
-          <Button type="submit" className="bg-orange-500">
+          <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full shadow-md hover:shadow-lg transition-all active:scale-95">
             {buttonText}
           </Button>
         )}

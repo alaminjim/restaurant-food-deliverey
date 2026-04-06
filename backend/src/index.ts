@@ -55,8 +55,14 @@ app.use("/api/my/restaurant", myRestaurantRoute);
 app.use("/api/restaurant", restaurantRoute);
 app.use("/api/order", orderRoute);
 
-app.use("/", (req, res) => {
+app.use("/", (req: Request, res: Response) => {
   res.send("Api is Working");
+});
+
+// Global Error Handler
+app.use((err: Error, req: Request, res: Response, next: express.NextFunction) => {
+  console.error("Unhandled Error:", err);
+  res.status(500).json({ message: "An unexpected error occurred", error: process.env.NODE_ENV === "development" ? err.message : undefined });
 });
 
 app.listen(7001, () => {

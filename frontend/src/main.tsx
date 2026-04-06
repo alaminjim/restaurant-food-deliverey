@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "sonner";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,15 +20,17 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Router>
-      <QueryClientProvider client={queryClient}>
-        <Auth0ProviderWithNavigate>
-          <HelmetProvider>
-            <AppRoutes />
-            <Toaster visibleToasts={1} position="top-right" richColors />
-          </HelmetProvider>
-        </Auth0ProviderWithNavigate>
-      </QueryClientProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <Auth0ProviderWithNavigate>
+            <HelmetProvider>
+              <AppRoutes />
+              <Toaster visibleToasts={1} position="top-right" richColors />
+            </HelmetProvider>
+          </Auth0ProviderWithNavigate>
+        </QueryClientProvider>
+      </Router>
+    </ErrorBoundary>
   </React.StrictMode>
 );

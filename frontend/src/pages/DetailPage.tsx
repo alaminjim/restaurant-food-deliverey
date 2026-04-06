@@ -11,6 +11,7 @@ import CheckoutButton from "@/components/CheckoutButton";
 import { UserFormData } from "@/forms/user-profile-form/UserProfileForm";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
 import { Helmet } from "react-helmet-async";
+import LoadingIndicator from "@/components/LoadingIndicator";
 
 export type CartItem = {
   _id: string;
@@ -106,7 +107,7 @@ const DetailPage = () => {
   };
 
   if (isLoading || !restaurant) {
-    return "Loading...";
+    return <LoadingIndicator fullPage />;
   }
 
   return (

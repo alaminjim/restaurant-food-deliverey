@@ -62,21 +62,26 @@ const HomePage = () => {
       <Helmet>
         <title>Testy & Bites</title>
       </Helmet>
-      {/* Hero + Search */}
+      {/* Hero Search Box */}
       <motion.div
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="md:px-32 bg-white rounded-lg shadow-md py-12 flex flex-col gap-5 text-center -mt-16"
+        className="glass rounded-3xl p-8 md:p-12 flex flex-col gap-6 text-center -mt-32 relative z-10 border border-white/40 shadow-2xl mx-2 md:mx-0"
       >
-        <h1 className="text-5xl font-bold tracking-tight text-orange-600">
-          Tuck into a takeaway today
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600 drop-shadow-sm">
+          Takeaway made simple
         </h1>
-        <span className="text-xl">Food is just a click away!</span>
-        <SearchBar
-          placeHolder="Search by City or Town"
-          onSubmit={handleSearchSubmit}
-        />
+        <span className="text-xl text-slate-700 font-medium tracking-wide">
+          Your favorite food, just a click away!
+        </span>
+        
+        <div className="mt-4 shadow-xl rounded-full overflow-hidden">
+          <SearchBar
+            placeHolder="Search by City or Town"
+            onSubmit={handleSearchSubmit}
+          />
+        </div>
       </motion.div>
 
       {/* Featured Restaurants Section */}
