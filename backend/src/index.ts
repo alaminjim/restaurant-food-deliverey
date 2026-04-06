@@ -40,6 +40,12 @@ cloudinary.config({
 
 const app = express();
 
+// Request Logging Middleware (Visible in Render Logs)
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
 app.use(cors());
 
 app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
@@ -56,7 +62,7 @@ app.use("/api/restaurant", restaurantRoute);
 app.use("/api/order", orderRoute);
 
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "API V2 - Final Polish Live!" });
+  res.json({ message: "API V3 - FINAL DEPLOY - DATA IS IN DB" });
 });
 
 app.use((req: Request, res: Response) => {
